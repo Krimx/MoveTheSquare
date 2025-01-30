@@ -8,7 +8,7 @@ public class GameController {
 		if (mouseX >= 0 && mouseX < game.getWidth() && mouseY >= 0 && mouseY < game.getHeight()) {
 
 /*
- * Modified code to use trigonometry to normalize square movement because I'm mommy's special boy.
+ * Modified code to normalize the dx and dy vectors and apply those to moveX and moveY
  */
 			double dx = mouseX - (square.getX() + square.getWidth()/2);
 			double dy = mouseY - (square.getY() + square.getHeight()/2);
@@ -16,6 +16,8 @@ public class GameController {
 			double mag = Math.sqrt(dx * dx + dy * dy);
 			
 			double moveX = dx / mag, moveY = dy / mag;
+			
+			//Old code that is irrelevant now
 			/*
 			if (dx > 0) {
 				moveX = Game.MOVE_DIST;
@@ -31,6 +33,18 @@ public class GameController {
 
 			game.setSquareDx(moveX * Game.MOVE_DIST);
 			game.setSquareDy(moveY *  Game.MOVE_DIST);
+			
+/*
+ * Modified code to avoid square vibrating when on mouse
+ */
+			double maxDist = 1;
+			double distance = Math.sqrt(Math.pow(square.getX() + (square.getWidth() / 2) - mouseX, 2) + Math.pow(square.getY() + (square.getHeight() / 2) - mouseY, 2));
+			System.out.println(distance);
+			if (distance < maxDist) {
+				game.setSquareDx(0);
+				game.setSquareDy(0);
+			};
+			
 		}
 	}
 
